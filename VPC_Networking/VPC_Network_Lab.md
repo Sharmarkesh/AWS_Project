@@ -22,7 +22,7 @@ Create a custom VPC with one public and one private subnet, configure correct ro
 - [Cleanup](#cleanup)
 
 ## Architecture
-  ![VPC Architecture Diagram](screenshots/Diagram.png)
+  ![VPC Architecture Diagram](screenshots/DiagramV4.png)
 
 
 ## Component
