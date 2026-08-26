@@ -39,7 +39,7 @@ resource "aws_s3_bucket_policy" "allow_public_access" {
 }
 resource "aws_iam_user_policy" "deploy_permissions" {
   name = "deploy-to-s3"
-  user = "your-iam-username-here" # the user whose access key goes in GitHub secrets
+  user = "asim" # the user whose access key goes in GitHub secrets
 
   policy = jsonencode({
     Version = "2012-10-17",
