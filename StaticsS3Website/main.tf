@@ -6,7 +6,7 @@ provider "aws" {
 
 #  S3 Bucket
 resource "aws_s3_bucket" "static_site" {
-  bucket = "sharifBucket" # make bucket name unique
+  bucket = "sharif-static-site-hb2026" # make bucket name unique
 }
 
 # S3 Remove Public Access Block
@@ -35,6 +35,7 @@ resource "aws_s3_bucket_policy" "allow_public_access" {
       }
     ]
   })
+  depends_on = [aws_s3_bucket_public_access_block.public_access_block]
 }
 
 # S3 Bucket Website Configuration
