@@ -27,15 +27,39 @@ resource "aws_s3_bucket_policy" "allow_public_access" {
     Version = "2012-10-17",
     Statement = [
       {
-       Sid      = "UploadObjects",
-        Effect   = "Allow",
-        Action   = ["s3:PutObject", "s3:GetObject"],
+        Sid : "PublicReadGetObject",
+        Effect = "Allow",
+        Principal = "*",
+        Action = "s3:GetObject",
         Resource = "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
       }
     ]
   })
   depends_on = [aws_s3_bucket_public_access_block.public_access_block]
 }
+resource "aws_iam_user_policy" "deploy_permissions" {
+  name = "deploy-to-s3"
+  user = "your-iam-username-here" # the user whose access key goes in GitHub secrets
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid      = "UploadObjects",
+        Effect   = "Allow",
+        Action   = ["s3:PutObject", "s3:GetObject"],
+        Resource = "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
+      },
+      {
+        Sid      = "ListBucket",
+        Effect   = "Allow",
+        Action   = "s3:ListBucket",
+        Resource = "arn:aws:s3:::${aws_s3_bucket.static_site.id}"
+      }
+    ]
+  })
+}
+
 
 # S3 Bucket Website Configuration
 resource "aws_s3_bucket_website_configuration" "website_configuration" {
