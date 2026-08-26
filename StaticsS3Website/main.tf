@@ -30,7 +30,7 @@ resource "aws_s3_bucket_policy" "allow_public_access" {
         Sid: "PublicReadGetObject",
         Effect = "Allow",
         Principal = "*",
-        Action = "s3:GetObject",
+        Action = ["s3:PutObject", "s3:GetObject", "s3:ListBucket"],
         Resource = "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
       }
     ]
