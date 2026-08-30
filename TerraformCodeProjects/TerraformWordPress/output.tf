@@ -1,0 +1,25 @@
+output "ec2_instance_public_ip" {
+  value = aws_instance.wordpress-instance.public_ip
+}
+output "ec2_endpoint" {
+  value = aws_instance.wordpress-instance.public_dns
+}
+output "instance_id" {
+  description = "The ID of the created EC2 instance"
+  value       = aws_instance.wordpress-instance.id
+}
+
+output "aws_region" {
+  description = "The AWS region where resources are deployed"
+  value       = var.aws_region
+}
+
+output "ami_id" {
+  description = "The AMI ID used for the EC2 instance"
+  value       = var.ami_id
+}
+
+output "instance_type" {
+  description = "The type of the EC2 instance"
+  value       = aws_instance.wordpress-instance.instance_type
+}

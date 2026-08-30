@@ -1,0 +1,18 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+*.tfplan
+
+# Real variable values (secrets live here)
+terraform.tfvars
+*.auto.tfvars
+
+# SSH private key
+*.pem
+
+# OS / editor cruft
+.DS_Store
