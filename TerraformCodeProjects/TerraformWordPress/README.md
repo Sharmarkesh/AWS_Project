@@ -44,7 +44,7 @@ Internet Gateway ── attached to ──▶ VPC (10.0.0.0/16)
 
 - [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.5
 - An AWS account with credentials configured (`aws configure`, or environment variables)
-- An EC2 key pair created via the **AWS Console** (EC2 → Key Pairs → Create key pair). This downloads a `.pem` file once — keep it local, never commit it, and run `chmod 400` on it before use. Terraform references this key pair **by name only** (`var.key_name`); it does not create or manage the key pair itself, since the console already registers the public half with AWS.
+- An EC2 key pair created via the **AWS Console** (EC2 → Key Pairs → Create key pair). This downloads a `.pem` file once  keep it local, never commit it, and run `chmod 400` on it before use. Terraform references this key pair **by name only** (`var.key_name`); it does not create or manage the key pair itself, since the console already registers the public half with AWS.
 
 ## Variables
 
@@ -70,7 +70,7 @@ allowed_cidr = ["0.0.0.0/0"]
 ```
 
 `db_name`, `db_user`, and `db_password` have no defaults and are marked
-`sensitive` — Terraform will refuse to `plan`/`apply` without them supplied
+`sensitive` .Terraform will refuse to `plan`/`apply` without them supplied
 here (or via `-var`/`TF_VAR_*`), and won't print them in CLI output.
 
 ## Deploy
@@ -117,7 +117,7 @@ On first boot, as root, with no manual steps:
 3. Creates the WordPress database and a dedicated DB user (via a `mysql <<SQL` heredoc, using the credentials passed in from Terraform)
 4. Downloads and extracts the latest WordPress release
 5. Copies WordPress into `/var/www/html/`, generates `wp-config.php` from the sample file, and substitutes in the real DB name/user/password with `sed`
-6. Removes Ubuntu's default `/var/www/html/index.html` placeholder (Apache serves `index.html` before `index.php` by default — without this step, the "Apache2 Default Page" keeps showing instead of WordPress even after everything is installed correctly)
+6. Removes Ubuntu's default `/var/www/html/index.html` placeholder (Apache serves `index.html` before `index.php` by default without this step, the "Apache2 Default Page" keeps showing instead of WordPress even after everything is installed correctly)
 7. Sets ownership of `/var/www/html` to `www-data` (Ubuntu's Apache user) and restarts Apache
 
 ## Troubleshooting notes (from getting this working)
