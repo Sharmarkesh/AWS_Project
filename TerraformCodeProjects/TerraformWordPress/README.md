@@ -76,6 +76,7 @@ here (or via `-var`/`TF_VAR_*`), and won't print them in CLI output.
 ## Deploy
 
 ```bash
+terraform validate
 terraform init
 terraform plan
 terraform apply
@@ -84,7 +85,19 @@ terraform apply
 Type `yes` to confirm. Deployment takes about 1–2 minutes for AWS to
 provision the network and instance; WordPress itself finishes installing
 another 1–2 minutes after that as `user_data.sh` runs on first boot.
+![Terraform apply output](screenshots/validate.png)
 
+![Terraform apply output](screenshots/init.png)
+
+![Terraform apply output](screenshots/plan.png)
+
+![Terraform apply output](screenshots/plan1.png)
+
+![Terraform apply output](screenshots/plan2.png)
+
+![Terraform apply output](screenshots/apply.png)
+
+![Terraform apply output](screenshots/apply1.png)
 ## Access WordPress
 
 Get the public IP/DNS:
@@ -98,16 +111,25 @@ terraform output ec2_endpoint
    install wizard (site title, admin username/password/email). This
    creates your **WordPress admin account** separate from your SSH key
    and separate from `db_user`/`db_password`.
+   ![Terraform apply output](screenshots/wordpress.png)
 2. Complete the wizard, then log into the dashboard at
    `http://<public-ip>/wp-admin`.
-3. The public site itself is just `http://<public-ip>/`.
+   ![Terraform apply output](screenshots/wordpress1.png)
+   
+  ![Terraform apply output](screenshots/wordpress2.png)
 
+
+3. The public site itself is just `http://<public-ip>/`.
+ 
+![Terraform apply output](screenshots/wordpress3.png)
+
+![Terraform apply output](screenshots/wordpress4.png)
 SSH access (Ubuntu's default user is `ubuntu`, not `ec2-user`):
 
 ```bash
 ssh -i wordpress_key.pem ubuntu@<public-ip>
 ```
-
+![Terraform apply output](screenshots/apache.png)
 ## What `user_data.sh` does
 
 On first boot, as root, with no manual steps:
@@ -119,7 +141,7 @@ On first boot, as root, with no manual steps:
 5. Copies WordPress into `/var/www/html/`, generates `wp-config.php` from the sample file, and substitutes in the real DB name/user/password with `sed`
 6. Removes Ubuntu's default `/var/www/html/index.html` placeholder (Apache serves `index.html` before `index.php` by default without this step, the "Apache2 Default Page" keeps showing instead of WordPress even after everything is installed correctly)
 7. Sets ownership of `/var/www/html` to `www-data` (Ubuntu's Apache user) and restarts Apache
-
+![Terraform apply output](screenshots/apache1.png)
 ## Troubleshooting notes (from getting this working)
 
 - **`ERR_CONNECTION_TIMED_OUT` on every port** almost always a missing
@@ -135,8 +157,12 @@ On first boot, as root, with no manual steps:
   custom VPC. The `security_groups` (by name) argument only works in
   EC2-Classic or the default VPC and will error or silently misbehave
   otherwise.
+  ![Terraform apply output](screenshots/sg.png)
+  
+  ![Terraform apply output](screenshots/sg1.png)
 - **Site loads but shows "Apache2 Default Page" instead of WordPress** .
   see step 6 above; delete `/var/www/html/index.html`.
+  ![Terraform apply output](screenshots/apache1.png)
 - **`templatefile()`/`file()` "no file exists"** ,Terraform doesn't
   expand `$SOME_VAR` like a shell. Use `${path.module}/user_data.sh` to
   reference a script sitting next to your `.tf` files.
@@ -145,10 +171,12 @@ On first boot, as root, with no manual steps:
 
 Add these to a `screenshots/` folder in this repo:
 
-1. `01-terraform-apply.png` — successful `terraform apply` output
-2. `02-wordpress-install-wizard.png` — the WordPress setup screen on first visit
-3. `03-site-live.png` — the live WordPress homepage
-4. `04-wp-admin-dashboard.png` — logged into `wp-admin`
+1.`validate.png`— successful `terraform validate` output
+2. `plan.png` and `plan1.png` and `plan2.png`— successful `terraform plan` output
+3. `apply.png` and `apply1.png` — successful `terraform apply` output
+4. `wordpress.png` and `wordpress1.png` and `wordpress2.png`— the WordPress setup screen on first visit
+5. `wordpress4.png` — the live WordPress homepage
+6. `wordpress3.png` and `wordpress4.png`— logged into `wp-admin`
 
 ## Cleanup
 
