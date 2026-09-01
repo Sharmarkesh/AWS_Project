@@ -140,7 +140,13 @@ On first boot, as root, with no manual steps:
 4. Downloads and extracts the latest WordPress release
 5. Copies WordPress into `/var/www/html/`, generates `wp-config.php` from the sample file, and substitutes in the real DB name/user/password with `sed`
 6. Removes Ubuntu's default `/var/www/html/index.html` placeholder (Apache serves `index.html` before `index.php` by default without this step, the "Apache2 Default Page" keeps showing instead of WordPress even after everything is installed correctly)
-7. Sets ownership of `/var/www/html` to `www-data` (Ubuntu's Apache user) and restarts Apache
+   ![Terraform apply output](screenshots/userdata.png)
+   
+Adding  the following line : sudo rm -f /var/www/html/index.html in user_data.sh
+
+   ![Terraform apply output](screenshots/userdata1.png)
+   
+8. Sets ownership of `/var/www/html` to `www-data` (Ubuntu's Apache user) and restarts Apache
 ![Terraform apply output](screenshots/apache1.png)
 ## Troubleshooting notes (from getting this working)
 
