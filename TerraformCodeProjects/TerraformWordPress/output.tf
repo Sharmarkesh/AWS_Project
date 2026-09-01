@@ -1,12 +1,12 @@
 output "ec2_instance_public_ip" {
-  value = aws_instance.wordpress-instance.public_ip
+  value = module.this.ec2_instance_public_ip
 }
 output "ec2_endpoint" {
-  value = aws_instance.wordpress-instance.public_dns
+  value = module.this.ec2_endpoint
 }
 output "instance_id" {
   description = "The ID of the created EC2 instance"
-  value       = aws_instance.wordpress-instance.id
+  value       = module.this.instance_id
 }
 
 output "aws_region" {
@@ -21,5 +21,5 @@ output "ami_id" {
 
 output "instance_type" {
   description = "The type of the EC2 instance"
-  value       = aws_instance.wordpress-instance.instance_type
+  value       = module.this.instance_type
 }
